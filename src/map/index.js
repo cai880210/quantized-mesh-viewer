@@ -6,7 +6,7 @@ const tilingScheme = new Cesium.WebMercatorTilingScheme()
 
 const terrainProvider = new SurfaceProvider({
   getUrl: (x, y, level) => {
-    const column = x
+    const column = x - 1
     const row = tilingScheme.getNumberOfYTilesAtLevel(level) - y - 1
 
     return `/example-tiles/${level}/${column}/${row}.terrain`
@@ -20,7 +20,11 @@ const terrainProvider = new SurfaceProvider({
 const viewer = new Cesium.Viewer(container, {
   mapProjection: new Cesium.WebMercatorProjection(),
   sceneMode: Cesium.SceneMode.COLUMBUS_VIEW,
-  terrainProvider
+  terrainProvider,
+  imageryProvider:new Cesium.SingleTileImageryProvider({
+        url: '/img/world_L5.png',
+        rectangle: Cesium.Rectangle.fromDegrees(-180.0,-85.0,180.0,85.0)
+      })
 })
 
 viewer.extend(Cesium.viewerCesiumInspectorMixin)
